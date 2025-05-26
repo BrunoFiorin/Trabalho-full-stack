@@ -1,0 +1,47 @@
+import "reflect-metadata"; 
+import express from 'express';
+import { AppDataSource } from './data-source';
+import { criarLivro, listarLivros, atualizarLivro } from './controllers/livroController';
+import { listarUsuarios, obterUsuario, atualizarUsuario, deletarUsuario } from './controllers/usuarioController';
+import { criarEmprestimo, concluirDevolucao, listarEmprestimos } from './controllers/emprestimoController';
+import { RequestHandler } from 'express';
+import { authMiddleware } from "./middlewares/auth";
+import { login, registro } from "./controllers/authControllers";
+import { criarCategoria, listarCategorias, atualizarCategoria, deletarCategoria } from './controllers/categoriaController';
+
+const app: express.Application = express();
+app.use(express.json());
+
+interface Params {
+    id: string;
+}
+
+// Rotas de usuário
+app.post("/auth/registro", registro); 
+app.post("/auth/login", login); 
+app.get("/usuarios", listarUsuarios);
+app.get("/usuarios/:id", obterUsuario as RequestHandler<Params>);
+app.put("/usuarios/:id", atualizarUsuario as RequestHandler<Params>);
+app.delete("/usuarios/:id", deletarUsuario as RequestHandler<Params>);
+
+// Rotas de livros
+app.post("/livros", criarLivro);
+app.get("/livros", listarLivros);
+app.put("/livros/:id", atualizarLivro as RequestHandler<Params>);
+
+app.post("/categorias", criarCategoria);
+app.get("/categorias", listarCategorias);
+app.put("/categorias/:id", atualizarCategoria as RequestHandler<Params>);
+app.delete("/categorias/:id", deletarCategoria as RequestHandler<Params>);
+
+// Rotas protegidas
+app.post("/emprestimos/", authMiddleware, criarEmprestimo);
+app.put("/emprestimos/:id/finalizar", authMiddleware, concluirDevolucao);
+app.get("/emprestimos", listarEmprestimos);
+
+AppDataSource.initialize()
+    .then(() => {
+        console.log("Banco de dados conectado!");
+        app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+    })
+    .catch((err) => console.error("Erro na conexão:", err));
