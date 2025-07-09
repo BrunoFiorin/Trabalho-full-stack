@@ -21,10 +21,10 @@ export function BookForm() {
 
   useEffect(() => {
     if (isEdit) {
-      fetch(`http://localhost:3000/livros`)
+      fetch(`http://localhost:3000/livros/${id}`)
         .then(res => res.json())
-        .then((data: Livro[]) => {
-          const livro = data.find(l => l.id === Number(id));
+
+ main
           if (livro) {
             setForm({ titulo: livro.titulo, autor: livro.autor });
           }
