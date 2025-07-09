@@ -7,6 +7,11 @@ interface LivroInput {
   autor: string;
 }
 
+interface Livro extends LivroInput {
+  id: number;
+  disponivel: boolean;
+}
+
 export function BookForm() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -18,8 +23,8 @@ export function BookForm() {
     if (isEdit) {
       fetch(`http://localhost:3000/livros`)
         .then(res => res.json())
-        .then((data) => {
-          const livro = data.find((l: any) => l.id === Number(id));
+        .then((data: Livro[]) => {
+          const livro = data.find(l => l.id === Number(id));
           if (livro) {
             setForm({ titulo: livro.titulo, autor: livro.autor });
           }
@@ -41,6 +46,7 @@ export function BookForm() {
       });
       navigate('/livros');
     } catch (err) {
+      console.error('Erro ao salvar', err);
       setError('Erro ao salvar');
     }
   };
