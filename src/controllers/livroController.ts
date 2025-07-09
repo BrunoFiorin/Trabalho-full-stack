@@ -112,5 +112,4 @@ export const deletarLivro = async (req: Request<Params>, res: Response) => {
         await livroRepository.remove(livro);
         res.status(204).send();
     } catch (error) {
-        res.status(500).json({ error: "Erro ao deletar livro" });
-    }};
+        res.status(500).json({ error: "Erro ao deletar livro" });    }};

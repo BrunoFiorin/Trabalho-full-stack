@@ -42,5 +42,4 @@ export const deletarCategoria = async (req: Request<Params>, res: Response) => {
     if (!categoria) return res.status(404).json({ error: "Categoria não Encontrada" });
     await categoriaRepository.remove(categoria);
     res.status(204).send()
-
 };

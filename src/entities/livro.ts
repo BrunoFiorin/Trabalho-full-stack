@@ -21,5 +21,4 @@ export class Livro {
 
     @ManyToMany(() => Categoria, categoria => categoria.livros)
     @JoinTable()
-    categorias!: Categoria[];
-}
+    categorias!: Categoria[];}

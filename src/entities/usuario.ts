@@ -26,5 +26,4 @@ export class Usuario {
     }
     @Column({ default: 0 })
     emprestimosAtivos!: number;
-
 }

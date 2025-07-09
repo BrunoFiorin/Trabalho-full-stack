@@ -34,5 +34,4 @@ export class Emprestimo {
     dataDevolucao!: Date | null;
 
     @Column({ default: true })
-    ativo!: boolean;
-}
+    ativo!: boolean;}

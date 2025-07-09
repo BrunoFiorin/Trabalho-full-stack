@@ -51,5 +51,4 @@ export const registro = async (req: Request, res: Response) => {
         });
     } catch (error) {
         res.status(500).json({ error: "Erro no registro." });
-    }
-};
+    }};
