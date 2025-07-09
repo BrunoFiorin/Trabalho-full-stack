@@ -23,8 +23,7 @@ export function BookForm() {
     if (isEdit) {
       fetch(`http://localhost:3000/livros/${id}`)
         .then(res => res.json())
-
- main
+        .then((livro: Livro) => {
           if (livro) {
             setForm({ titulo: livro.titulo, autor: livro.autor });
           }
@@ -39,7 +38,7 @@ export function BookForm() {
       return;
     }
     try {
-      await fetch(`http://localhost:3000/livros${isEdit ? '/' + id : ''}` , {
+      await fetch(`http://localhost:3000/livros${isEdit ? `/${id}` : ''}`, {
         method: isEdit ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
