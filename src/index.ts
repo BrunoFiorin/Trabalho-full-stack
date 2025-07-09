@@ -1,7 +1,7 @@
 import "reflect-metadata"; 
 import express from 'express';
+import cors from 'cors';
 import { AppDataSource } from './data-source';
-import { criarLivro, listarLivros, atualizarLivro, deletarLivro } from './controllers/livroController';
 import { listarUsuarios, obterUsuario, atualizarUsuario, deletarUsuario } from './controllers/usuarioController';
 import { criarEmprestimo, concluirDevolucao, listarEmprestimos } from './controllers/emprestimoController';
 import { RequestHandler } from 'express';
@@ -11,6 +11,7 @@ import { criarCategoria, listarCategorias, atualizarCategoria, deletarCategoria 
 
 const app: express.Application = express();
 app.use(express.json());
+app.use(cors());
 
 interface Params {
     id: string;
@@ -27,6 +28,7 @@ app.delete("/usuarios/:id", deletarUsuario as RequestHandler<Params>);
 // Rotas de livros
 app.post("/livros", criarLivro);
 app.get("/livros", listarLivros);
+app.get("/livros/:id", obterLivro as RequestHandler<Params>);
 app.put("/livros/:id", atualizarLivro as RequestHandler<Params>);
 app.delete("/livros/:id", deletarLivro as RequestHandler<Params>);
 
@@ -43,5 +45,4 @@ app.get("/emprestimos", listarEmprestimos);
 AppDataSource.initialize()
     .then(() => {
         console.log("Banco de dados conectado!");
-        app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
-    })    .catch((err) => console.error("Erro na conexão:", err));
+
