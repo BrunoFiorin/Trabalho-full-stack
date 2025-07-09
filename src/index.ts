@@ -1,5 +1,6 @@
 import "reflect-metadata"; 
 import express from 'express';
+import cors from 'cors';
 import { AppDataSource } from './data-source';
 import { criarLivro, listarLivros, atualizarLivro } from './controllers/livroController';
 import { listarUsuarios, obterUsuario, atualizarUsuario, deletarUsuario } from './controllers/usuarioController';
@@ -11,6 +12,7 @@ import { criarCategoria, listarCategorias, atualizarCategoria, deletarCategoria 
 
 const app: express.Application = express();
 app.use(express.json());
+app.use(cors());
 
 interface Params {
     id: string;
