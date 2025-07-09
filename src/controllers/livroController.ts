@@ -47,6 +47,28 @@ export const listarLivros = async (req: Request, res: Response) => {
     }
 };
 
+export const obterLivro = async (req: Request<Params>, res: Response) => {
+    const id = parseInt(req.params.id);
+
+    try {
+        const livro = await livroRepository.findOne({
+            where: { id },
+            relations: ["categorias"]
+        });
+
+        if (!livro) {
+            return res.status(404).json({ error: "Livro não encontrado" });
+        }
+
+        return res.status(200).json({
+            ...livro,
+            categorias: livro.categorias.map(c => ({ id: c.id, nome: c.nome }))
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar livro" });
+    }
+};
+
 export const atualizarLivro = async (req: Request<Params>, res: Response) => {
     const id = parseInt(req.params.id);
     const { titulo, categorias } = req.body;
@@ -90,5 +112,8 @@ export const deletarLivro = async (req: Request<Params>, res: Response) => {
         await livroRepository.remove(livro);
         res.status(204).send();
     } catch (error) {
+
         res.status(500).json({ error: "Erro ao deletar livro" });
     }};
+
+        res.status(500).json({ error: "Erro ao deletar livro" });    }};

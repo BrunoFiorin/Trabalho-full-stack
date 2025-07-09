@@ -42,5 +42,4 @@ export const deletarUsuario = async (req: Request<Params>, res: Response) => {
     if (!usuario) return res.status(404).json({ error: "Usuário não encontrado" });
     await usuarioRepository.remove(usuario);
     res.status(204).send()
-
 };

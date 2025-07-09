@@ -7,10 +7,12 @@ interface LivroInput {
   autor: string;
 }
 
+
 interface Categoria {
   id: number;
   nome: string;
 }
+
 
 export function BookForm() {
   const { id } = useParams();
@@ -18,6 +20,7 @@ export function BookForm() {
   const isEdit = Boolean(id);
   const [form, setForm] = useState<LivroInput>({ titulo: '', autor: '' });
   const [error, setError] = useState('');
+
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [selecionadas, setSelecionadas] = useState<number[]>([]);
 
@@ -34,6 +37,7 @@ export function BookForm() {
           if (livro) {
             setForm({ titulo: livro.titulo, autor: livro.autor });
             setSelecionadas(livro.categorias.map((c: any) => c.id));
+
           }
         });
     }
@@ -46,6 +50,7 @@ export function BookForm() {
       return;
     }
     try {
+
       await fetch(`http://localhost:3000/livros${isEdit ? '/' + id : ''}` , {
         method: isEdit ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -53,6 +58,7 @@ export function BookForm() {
       });
       navigate('/livros');
     } catch (err) {
+
       setError('Erro ao salvar');
     }
   };
@@ -77,6 +83,7 @@ export function BookForm() {
           required
         />
       </div>
+
       <div>
         <label>Categorias:</label>
         <select
@@ -92,6 +99,7 @@ export function BookForm() {
           ))}
         </select>
       </div>
+
       <button type="submit">Salvar</button>
       <button type="button" onClick={() => navigate('/livros')}>Cancelar</button>
     </form>

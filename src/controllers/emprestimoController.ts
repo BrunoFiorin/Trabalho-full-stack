@@ -116,5 +116,4 @@ export const listarEmprestimos = async (req: Request, res: Response) => {
         res.status(200).json(resposta);
     } catch (error) {
         res.status(500).json({ error: "Erro ao listar empréstimos" });
-    }
-};
+    }};
