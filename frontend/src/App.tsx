@@ -1,20 +1,24 @@
-import { useState } from 'react';
 import './App.css';
+import { BrowserRouter, Navigate, Route, Routes, Link } from 'react-router-dom';
 import { BookList } from './BookList';
-import { AddBookForm } from './AddBookForm';
+import { BookForm } from './BookForm';
 
 function App() {
-  const [reload, setReload] = useState(false);
-
-  const triggerReload = () => setReload(!reload);
-
   return (
-    <div className="App">
-      <h1>Biblioteca</h1>
-      <AddBookForm onAdd={triggerReload} />
-      {/* key ensures component remount on reload toggle */}
-      <BookList key={String(reload)} />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <h1>Biblioteca</h1>
+        <nav>
+          <Link to="/livros">Livros</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Navigate to="/livros" />} />
+          <Route path="/livros" element={<BookList />} />
+          <Route path="/livros/novo" element={<BookForm />} />
+          <Route path="/livros/:id/editar" element={<BookForm />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express from 'express';
 import cors from 'cors';
 import { AppDataSource } from './data-source';
-import { criarLivro, listarLivros, atualizarLivro } from './controllers/livroController';
+import { criarLivro, listarLivros, atualizarLivro, deletarLivro } from './controllers/livroController';
 import { listarUsuarios, obterUsuario, atualizarUsuario, deletarUsuario } from './controllers/usuarioController';
 import { criarEmprestimo, concluirDevolucao, listarEmprestimos } from './controllers/emprestimoController';
 import { RequestHandler } from 'express';
@@ -30,6 +30,7 @@ app.delete("/usuarios/:id", deletarUsuario as RequestHandler<Params>);
 app.post("/livros", criarLivro);
 app.get("/livros", listarLivros);
 app.put("/livros/:id", atualizarLivro as RequestHandler<Params>);
+app.delete("/livros/:id", deletarLivro as RequestHandler<Params>);
 
 app.post("/categorias", criarCategoria);
 app.get("/categorias", listarCategorias);
@@ -45,5 +46,4 @@ AppDataSource.initialize()
     .then(() => {
         console.log("Banco de dados conectado!");
         app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
-    })
-    .catch((err) => console.error("Erro na conexão:", err));
+    })    .catch((err) => console.error("Erro na conexão:", err));
