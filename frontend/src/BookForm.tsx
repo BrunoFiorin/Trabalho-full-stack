@@ -16,10 +16,9 @@ export function BookForm() {
 
   useEffect(() => {
     if (isEdit) {
-      fetch(`http://localhost:3000/livros`)
+      fetch(`http://localhost:3000/livros/${id}`)
         .then(res => res.json())
-        .then((data) => {
-          const livro = data.find((l: any) => l.id === Number(id));
+        .then((livro) => {
           if (livro) {
             setForm({ titulo: livro.titulo, autor: livro.autor });
           }
