@@ -79,3 +79,16 @@ export const atualizarLivro = async (req: Request<Params>, res: Response) => {
         res.status(500).json({ error: "Erro ao atualizar livro" });
     }
 };
+
+export const deletarLivro = async (req: Request<Params>, res: Response) => {
+    const id = parseInt(req.params.id);
+    try {
+        const livro = await livroRepository.findOneBy({ id });
+        if (!livro) {
+            return res.status(404).json({ error: "Livro não encontrado" });
+        }
+        await livroRepository.remove(livro);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao deletar livro" });
+    }};
