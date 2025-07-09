@@ -7,11 +7,6 @@ interface LivroInput {
   autor: string;
 }
 
-interface Livro extends LivroInput {
-  id: number;
-  disponivel: boolean;
-}
-
 export function BookForm() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,13 +14,6 @@ export function BookForm() {
   const [form, setForm] = useState<LivroInput>({ titulo: '', autor: '' });
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (isEdit) {
-      fetch(`http://localhost:3000/livros/${id}`)
-        .then(res => res.json())
-        .then((livro: Livro) => {
-          if (livro) {
-            setForm({ titulo: livro.titulo, autor: livro.autor });
           }
         });
     }
@@ -38,14 +26,6 @@ export function BookForm() {
       return;
     }
     try {
-      await fetch(`http://localhost:3000/livros${isEdit ? `/${id}` : ''}`, {
-        method: isEdit ? 'PUT' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      navigate('/livros');
-    } catch (err) {
-      console.error('Erro ao salvar', err);
       setError('Erro ao salvar');
     }
   };
@@ -70,6 +50,7 @@ export function BookForm() {
           required
         />
       </div>
+
       <button type="submit">Salvar</button>
       <button type="button" onClick={() => navigate('/livros')}>Cancelar</button>
     </form>

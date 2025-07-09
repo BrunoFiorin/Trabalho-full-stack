@@ -3,11 +3,6 @@
     "target": "ES2022",
     "module": "commonjs",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
   },
   "exclude": ["frontend"]
 }
